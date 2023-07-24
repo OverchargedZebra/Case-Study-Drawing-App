@@ -11,7 +11,7 @@ function sprayCanTool() {
 		//spread describes how far to spread the paint from the mouse pointer
 		//points holds how many pixels of paint for each mouse press.
 		push();
-		strokeWeight(1);
+		strokeWeight(document.getElementById("brush-size").value / 4);
 		if (mouseIsPressed) {
 			for (var i = 0; i < points; i++) {
 				point(

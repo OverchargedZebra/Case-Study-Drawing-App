@@ -77,6 +77,11 @@ function editableShapeTool() {
 
 			loadPixels();
 		});
+
+		editMode = false;
+		editableShape.draw();
+		currentShape = [];
+		loadPixels();
 	};
 
 	var editableShape = this;
@@ -115,7 +120,6 @@ function editableShapeTool() {
 				currentShape.splice(currentShape.length - 1, 1);
 			}
 			editableShape.draw();
-			console.log(currentShape);
 		});
 
 		select("#clearButton").mouseClicked(function () {
