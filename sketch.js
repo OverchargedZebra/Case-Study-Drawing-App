@@ -6,6 +6,7 @@ var helpers = null;
 
 var c;
 
+//due to issues with my monitor I had to divide the value of canvas.elt.offsetLeft and canvas.elt.offsetTop by 2
 function mousePressOnCanvas(canvas) {
 	if (
 		mouseX > canvas.elt.offsetLeft &&
