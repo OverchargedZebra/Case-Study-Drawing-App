@@ -18,15 +18,18 @@
 		<script src="colourPalette.js"></script>
 		<script src="helperFunctions.js"></script>
 
-		<script src="erasingTool.js"></script>
 		<script src="freehandTool.js"></script>
 		<script src="lineToTool.js"></script>
 		<script src="mirrorDrawTool.js"></script>
+
+		<!--My changes to the code start-->
+		<script src="erasingTool.js"></script>
 		<script src="sprayCanTool.js"></script>
 		<script src="rectangleTool.js"></script>
 		<script src="ellipseTool.js"></script>
 		<script src="stampTool.js"></script>
 		<script src="editableShapeTool.js"></script>
+		<!--My changes to the code end-->
 
 		<link
 			rel="stylesheet"
@@ -41,6 +44,8 @@
 
 				<button id="clearButton">Clear</button>
 				<button id="saveImageButton">Save Image</button>
+
+				<!--My changes to the code start-->
 				<input
 					type="range"
 					min="1"
@@ -59,6 +64,8 @@
 					oninput="this.nextElementSibling.value = 'Spread size = ' + this.value"
 				/>
 				<output id="stamp-spread-size-label">Spread size = 5</output>
+				<!--My changes to the code end-->
+				
 			</div>
 			<div
 				class="box"
