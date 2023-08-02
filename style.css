@@ -41,6 +41,10 @@ body {
 	flex-flow: wrap;
 }
 
+#colour-picker{
+	grid-area: colourP;
+}
+
 .options {
 	grid-area: options;
 	padding: 15px;

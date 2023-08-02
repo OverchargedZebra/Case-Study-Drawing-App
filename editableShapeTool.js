@@ -127,6 +127,9 @@ function editableShapeTool() {
 
 			background(255);
 
+			editMode = false;
+			editButton.html("Edit shape");
+
 			loadPixels();
 		});
 	};
