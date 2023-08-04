@@ -146,8 +146,7 @@ function editableShapeTool() {
 			}
 			noFill();
 			pop();
-		}
-		if (curveMode) {
+		} else if (curveMode) {
 			push();
 			fill(255, 0, 0);
 			noStroke();
