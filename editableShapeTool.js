@@ -106,7 +106,8 @@ function editableShapeTool() {
 					) {
 						curves[i].x1 = mouseX;
 						curves[i].y1 = mouseY;
-					} else if (
+					}
+					if (
 						dist(mouseX, mouseY, curves[i].x2, curves[i].y2) < size
 					) {
 						curves[i].x2 = mouseX;
@@ -241,7 +242,7 @@ function editableShapeTool() {
 				currentShape.splice(currentShape.length - 1, 1);
 			}
 			if (curves.length > 0) {
-				currentShape.splice(currentShape.length - 1, 1);
+				curves.splice(curves.length - 1, 1);
 			}
 			editableShape.draw();
 		});
