@@ -56,7 +56,7 @@ function editableShapeTool() {
 						currentShape[i].x = mouseX;
 						currentShape[i].y = mouseY;
 
-						if (i == 0) {
+						if (i != currentShape.length - 1) {
 							var avgX =
 								(currentShape[i + 1].x - currentShape[i].x) / 3;
 							var avgY =
@@ -66,30 +66,11 @@ function editableShapeTool() {
 							curves[i].y1 = currentShape[i].y + avgY;
 							curves[i].x2 = currentShape[i].x + avgX * 2;
 							curves[i].y2 = currentShape[i].y + avgY * 2;
-						} else if (i == currentShape.length - 1) {
+						}
+						if (i != 0) {
 							var avgX =
 								(currentShape[i].x - currentShape[i - 1].x) / 3;
 							var avgY =
-								(currentShape[i].y - currentShape[i - 1].y) / 3;
-
-							curves[i - 1].x1 = currentShape[i - 1].x + avgX;
-							curves[i - 1].y1 = currentShape[i - 1].y + avgY;
-							curves[i - 1].x2 = currentShape[i - 1].x + avgX * 2;
-							curves[i - 1].y2 = currentShape[i - 1].y + avgY * 2;
-						} else {
-							var avgX =
-								(currentShape[i + 1].x - currentShape[i].x) / 3;
-							var avgY =
-								(currentShape[i + 1].y - currentShape[i].y) / 3;
-
-							curves[i].x1 = currentShape[i].x + avgX;
-							curves[i].y1 = currentShape[i].y + avgY;
-							curves[i].x2 = currentShape[i].x + avgX * 2;
-							curves[i].y2 = currentShape[i].y + avgY * 2;
-
-							avgX =
-								(currentShape[i].x - currentShape[i - 1].x) / 3;
-							avgY =
 								(currentShape[i].y - currentShape[i - 1].y) / 3;
 
 							curves[i - 1].x1 = currentShape[i - 1].x + avgX;
@@ -112,6 +93,19 @@ function editableShapeTool() {
 					) {
 						curves[i].x2 = mouseX;
 						curves[i].y2 = mouseY;
+					}
+				}
+				for (var i = 0; i < currentShape.length; i++) {
+					if (
+						dist(
+							mouseX,
+							mouseY,
+							currentShape[i].x,
+							currentShape[i].y
+						) < size
+					) {
+						currentShape[i].x = mouseX;
+						currentShape[i].y = mouseY;
 					}
 				}
 			}
@@ -153,6 +147,9 @@ function editableShapeTool() {
 			for (var i = 0; i < curves.length; i++) {
 				ellipse(curves[i].x1, curves[i].y1, size);
 				ellipse(curves[i].x2, curves[i].y2, size);
+			}
+			for (var i = 0; i < currentShape.length; i++) {
+				ellipse(currentShape[i].x, currentShape[i].y, size);
 			}
 			noFill();
 			pop();
