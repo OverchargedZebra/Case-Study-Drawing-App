@@ -209,9 +209,9 @@ function editableShapeTool() {
 				editButton.html("Edit shape");
 			}
 
-			if (currentShape.length > 1 && curveMode) {
+			if (curveMode) {
 				curveButton.html("Stop curve");
-			} else if (currentShape.length > 1) {
+			} else {
 				curveButton.html("Curve shape");
 			}
 		});

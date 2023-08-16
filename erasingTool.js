@@ -2,6 +2,9 @@ function erasingTool() {
 	this.icon = "assets/erasingTool.png";
 	this.name = "erasingTool";
 
+	var shapeButton;
+	var shapeMode = true;
+
 	this.draw = function () {
 		var size = parseInt(document.getElementById("brush-size").value);
 		size *= 2;
@@ -10,8 +13,12 @@ function erasingTool() {
 		push();
 		if (mouseIsPressed) {
 			fill(255);
-			stroke(255);
-			rect(mouseX - size / 2, mouseY - size / 2, size, size);
+			noStroke();
+			if (shapeMode) {
+				rect(mouseX - size / 2, mouseY - size / 2, size, size);
+			} else {
+				ellipse(mouseX, mouseY, size, size);
+			}
 		}
 		pop();
 
@@ -21,11 +28,33 @@ function erasingTool() {
 		noFill();
 		strokeWeight(1);
 		stroke(0);
-		rect(mouseX - size / 2, mouseY - size / 2, size, size);
+		if (shapeMode) {
+			rect(mouseX - size / 2, mouseY - size / 2, size, size);
+		} else {
+			ellipse(mouseX, mouseY, size, size);
+		}
 		pop();
 	};
 
 	this.unselectTool = function () {
 		updatePixels();
+
+		select(".options").html("");
+	};
+
+	this.populateOptions = function () {
+		select(".options").html(
+			"<button id='shapeButton'>circular eraser</button>"
+		);
+
+		shapeButton = select("#shapeButton");
+		shapeButton.mouseClicked(function () {
+			shapeMode = !shapeMode;
+			if (shapeMode) {
+				shapeButton.html("circular eraser");
+			} else {
+				shapeButton.html("rect eraser");
+			}
+		});
 	};
 }
