@@ -5,6 +5,8 @@ function erasingTool() {
 	var shapeButton;
 	var shapeMode = true;
 
+	var eraserColour = [255, 255, 255];
+
 	this.draw = function () {
 		var size = parseInt(document.getElementById("brush-size").value);
 		size *= 2;
@@ -12,7 +14,7 @@ function erasingTool() {
 
 		push();
 		if (mouseIsPressed) {
-			fill(255);
+			fill(color(eraserColour));
 			noStroke();
 			if (shapeMode) {
 				rect(mouseX - size / 2, mouseY - size / 2, size, size);
@@ -44,7 +46,7 @@ function erasingTool() {
 
 	this.populateOptions = function () {
 		select(".options").html(
-			"<button id='shapeButton'>circular eraser</button>"
+			"<button id='shapeButton'>circular eraser</button><input type='color' id='eraserColourPicker' style='display:none;'><button id='eraserColourButton'>choose eraser colour</button>"
 		);
 
 		shapeButton = select("#shapeButton");
@@ -55,6 +57,14 @@ function erasingTool() {
 			} else {
 				shapeButton.html("rect eraser");
 			}
+		});
+
+		select("#eraserColourButton").mouseClicked(function () {
+			this.elt.previousSibling.showPicker();
+		});
+
+		select("#eraserColourPicker").input(function () {
+			eraserColour = document.getElementById("eraserColourPicker").value;
 		});
 	};
 }
