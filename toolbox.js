@@ -78,8 +78,8 @@ function Toolbox() {
 				}
 
 				if (this.tools[i].name == "stampTool") {
-					brushSize.max = 50;
-					brushSize.value = 25;
+					brushSize.max = 100;
+					brushSize.value = 50;
 					brushSizeLabel.innerHTML =
 						"Brush size = " + brushSize.value;
 

@@ -20,7 +20,8 @@ function stampTool() {
 		stampImages.push(loadImage("assets/" + stampNames[i] + ".png"));
 	}
 
-	var selectedImage = stampImages[0];
+	var selectedIndex = 0;
+	var selectedImage = stampImages[selectedIndex];
 
 	this.draw = function () {
 		var size = parseInt(document.getElementById("brush-size").value);
@@ -43,6 +44,20 @@ function stampTool() {
 				size
 			);
 		}
+	};
+
+	var stampClicked = function () {
+		//remove the old border
+		var current = document.getElementById(stampNames[selectedIndex]);
+
+		current.style = "border: 0;";
+
+		//choose clicked stamp
+		if ("index" in this.dataset) selectedIndex = this.dataset.index;
+		selectedImage = stampImages[selectedIndex];
+
+		//add a new border to the selected colour
+		this.style = "border: 2px solid blue;";
 	};
 
 	var originalSwatchStyle = [];
@@ -85,7 +100,9 @@ function stampTool() {
 				stampNames[i] +
 				"' width='50' height='50' id='" +
 				stampNames[i] +
-				" style='" +
+				"' data-index='" +
+				i +
+				"' style='" +
 				"display: inline" +
 				";'>";
 		}
@@ -93,5 +110,12 @@ function stampTool() {
 		select(".options").html(
 			"<div style='margin:15px;'>" + stampsHtml + "</div>"
 		);
+
+		for (i = 0; i < stampNames.length; i++) {
+			var stamp = document.getElementById(stampNames[i]);
+			if (stamp) {
+				stamp.addEventListener("mouseup", stampClicked);
+			}
+		}
 	};
 }
