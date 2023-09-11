@@ -111,6 +111,7 @@ function stampTool() {
 			"<div style='margin:15px;'>" + stampsHtml + "</div>"
 		);
 
+		//adding the function stampClicked to mouseup event of htm;l element
 		for (i = 0; i < stampNames.length; i++) {
 			var stamp = document.getElementById(stampNames[i]);
 			if (stamp) {
