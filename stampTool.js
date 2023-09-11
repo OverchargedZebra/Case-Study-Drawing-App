@@ -4,21 +4,18 @@ function stampTool() {
 
 	//loading different stamps to be used
 	var stampNames = [
-		"stampTool",
-		"stampImage2",
-		"stampImage3",
-		"stampImage4",
-		"stampImage5",
-		"stampImage6",
-		"stampImage7",
-		"stampImage8",
+		"assets/stampTool.png",
+		"assets/stampImage2.png",
+		"assets/stampImage3.png",
+		"assets/stampImage4.png",
+		"assets/stampImage5.png",
+		"assets/stampImage6.png",
+		"assets/stampImage7.png",
+		"assets/stampImage8.png",
 	];
 
+	var stamphtmlElements = [];
 	var stampImages = [];
-
-	for (var i = 0; i < stampNames.length; i++) {
-		stampImages.push(loadImage("assets/" + stampNames[i] + ".png"));
-	}
 
 	var selectedIndex = 0;
 	var selectedImage = stampImages[selectedIndex];
@@ -29,7 +26,7 @@ function stampTool() {
 			document.getElementById("stamp-spread-size").value
 		);
 
-		if (mouseIsPressed) {
+		if (mouseIsPressed && mousePressOnCanvas(c)) {
 			image(
 				selectedImage,
 				random(
@@ -46,29 +43,63 @@ function stampTool() {
 		}
 	};
 
+	var loadStamps = function () {
+		var stampsHtml = createDiv();
+		stampsHtml.id("stamps");
+		select(".options").child(stampsHtml);
+
+		for (var i = 0; i < stampNames.length; i++) {
+			addStamp(stampNames[i]);
+		}
+
+		selectedImage = stampImages[selectedIndex];
+		stamphtmlElements[selectedIndex].elt.style.border = "2px solid blue";
+	};
+
+	var addStamp = function (stamp, index = stampImages.length) {
+		var newStamp = createImg(stamp, stamp);
+		newStamp.id(stamp);
+		newStamp.mouseClicked(stampClicked);
+		newStamp.elt.style.width = "50px";
+		newStamp.elt.style.height = "50px";
+		newStamp.elt.dataset.index = index;
+		newStamp.elt.setAttribute("draggable", false);
+		select("#stamps").child(newStamp);
+
+		stampImages.push(loadImage(stamp));
+		stamphtmlElements.push(newStamp);
+	};
+
 	var stampClicked = function () {
 		//remove the old border
-		var current = document.getElementById(stampNames[selectedIndex]);
+		var current = stamphtmlElements[selectedIndex];
 
-		current.style = "border: 0;";
+		current.elt.style.border = "0px";
 
 		//choose clicked stamp
-		if ("index" in this.dataset) selectedIndex = this.dataset.index;
+		if ("index" in this.elt.dataset) selectedIndex = this.elt.dataset.index;
 		selectedImage = stampImages[selectedIndex];
 
 		//add a new border to the selected colour
-		this.style = "border: 2px solid blue;";
+		this.elt.style.border = "2px solid blue";
 	};
 
-	var originalSwatchStyle = [];
 	var colourSwatches = document.getElementsByClassName("colourSwatches");
+
+	var brushSize = document.getElementById("brush-size");
+	var brushSizeLabel = document.getElementById("brush-size-label");
+
+	var stampSpreadSize = document.getElementById("stamp-spread-size");
+	var stampSpreadSizeLabel = document.getElementById(
+		"stamp-spread-size-label"
+	);
 
 	this.unselectTool = function () {
 		loadPixels();
 
 		//return colour swatches to original style
 		for (let i = 0; i < colourSwatches.length; i++) {
-			colourSwatches[i].style = originalSwatchStyle[i];
+			colourSwatches[i].style.display = "inline";
 		}
 
 		//reload the colours
@@ -77,45 +108,33 @@ function stampTool() {
 		//show the colour picker
 		document.getElementById("colour-picker").style = "display: colourP;";
 
+		if (brushSize.value > 20) brushSize.value = 10;
+		brushSize.max = 20;
+		brushSizeLabel.innerHTML = "Brush size = " + brushSize.value;
+
+		stampSpreadSize.style.display = "none";
+		stampSpreadSizeLabel.style.display = "none";
+
 		select(".options").html("");
 	};
 
 	this.populateOptions = function () {
 		//hide the colour swatch
 		for (let i = 0; i < colourSwatches.length; i++) {
-			originalSwatchStyle.push(colourSwatches[i].style);
-			colourSwatches[i].style = "display: none;";
+			colourSwatches[i].style.display = "none";
 		}
+
+		brushSize.max = 100;
+		brushSize.value = 50;
+		brushSizeLabel.innerHTML = "Brush size = " + brushSize.value;
+
+		stampSpreadSize.style.display = "inline";
+		stampSpreadSizeLabel.style.display = "inline";
 
 		//hide colour picker
 		document.getElementById("colour-picker").style = "display: none;";
 
 		//show stamp images in option
-		var stampsHtml = "";
-		for (i = 0; i < stampNames.length; i++) {
-			stampsHtml +=
-				"<img src='assets/" +
-				stampNames[i] +
-				".png' alt='" +
-				stampNames[i] +
-				"' width='50' height='50' id='" +
-				stampNames[i] +
-				"' data-index='" +
-				i +
-				"' style='" +
-				"display: inline" +
-				";'>";
-		}
-
-		select(".options").html(
-			"<div style='margin:15px;'>" + stampsHtml + "</div>"
-		);
-
-		for (i = 0; i < stampNames.length; i++) {
-			var stamp = document.getElementById(stampNames[i]);
-			if (stamp) {
-				stamp.addEventListener("mouseup", stampClicked);
-			}
-		}
+		loadStamps();
 	};
 }

@@ -48,13 +48,6 @@ function Toolbox() {
 	this.selectTool = function (toolName) {
 		//search through the tools for one that's name matches
 		//toolName
-		var brushSize = document.getElementById("brush-size");
-		var brushSizeLabel = document.getElementById("brush-size-label");
-
-		var stampSpreadSize = document.getElementById("stamp-spread-size");
-		var stampSpreadSizeLabel = document.getElementById(
-			"stamp-spread-size-label"
-		);
 
 		for (var i = 0; i < this.tools.length; i++) {
 			if (this.tools[i].name == toolName) {
@@ -75,24 +68,6 @@ function Toolbox() {
 				//if the tool has an options area. Populate it now.
 				if (this.selectedTool.hasOwnProperty("populateOptions")) {
 					this.selectedTool.populateOptions();
-				}
-
-				if (this.tools[i].name == "stampTool") {
-					brushSize.max = 100;
-					brushSize.value = 50;
-					brushSizeLabel.innerHTML =
-						"Brush size = " + brushSize.value;
-
-					stampSpreadSize.style.display = "inline";
-					stampSpreadSizeLabel.style.display = "inline";
-				} else {
-					if (brushSize.value > 20) brushSize.value = 10;
-					brushSize.max = 20;
-					brushSizeLabel.innerHTML =
-						"Brush size = " + brushSize.value;
-
-					stampSpreadSize.style.display = "none";
-					stampSpreadSizeLabel.style.display = "none";
 				}
 			}
 		}

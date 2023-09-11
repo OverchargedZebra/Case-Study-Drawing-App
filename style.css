@@ -88,3 +88,11 @@ body {
 #stamp-spread-size-label {
 	display: none;
 }
+
+#stamps{
+	display: flex;
+	max-width: 40%;
+	margin: 0 auto;
+	justify-content: space-between;
+	user-select: none;
+}

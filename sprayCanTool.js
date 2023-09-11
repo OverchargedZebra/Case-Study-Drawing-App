@@ -3,6 +3,7 @@ function sprayCanTool() {
 	this.name = "sprayCanTool";
 	this.icon = "assets/sprayCan.jpg";
 
+	//modified this code to work better with my sliders
 	var points = 13;
 	this.draw = function () {
 		var spread = parseInt(document.getElementById("brush-size").value);
