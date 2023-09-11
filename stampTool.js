@@ -26,7 +26,7 @@ function stampTool() {
 			document.getElementById("stamp-spread-size").value
 		);
 
-		if (mouseIsPressed && mousePressOnCanvas(c)) {
+		if (mouseIsPressed) {
 			image(
 				selectedImage,
 				random(

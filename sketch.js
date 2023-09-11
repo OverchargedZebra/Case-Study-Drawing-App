@@ -28,6 +28,8 @@ function setup() {
 	);
 	c.parent("content");
 
+	// CreateNewLayer();
+
 	//create helper functions and the colour palette
 	helpers = new HelperFunctions();
 	colourP = new ColourPalette();
