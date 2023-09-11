@@ -84,11 +84,14 @@ function stampTool() {
 		this.elt.style.border = "2px solid blue";
 	};
 
+	//used to hide colour swatches
 	var colourSwatches = document.getElementsByClassName("colourSwatches");
 
+	//used to increase value of brush size
 	var brushSize = document.getElementById("brush-size");
 	var brushSizeLabel = document.getElementById("brush-size-label");
 
+	//used to show/hide these elements
 	var stampSpreadSize = document.getElementById("stamp-spread-size");
 	var stampSpreadSizeLabel = document.getElementById(
 		"stamp-spread-size-label"
@@ -134,7 +137,36 @@ function stampTool() {
 		//hide colour picker
 		document.getElementById("colour-picker").style = "display: none;";
 
+		//input file and use it as a stamp
+		var input = createFileInput(handleFile);
+		select(".options").child(input);
+
 		//show stamp images in option
 		loadStamps();
+	};
+
+	//used to refresh the values forcefully to default
+	this.refresh = function () {
+		selectedIndex = 0;
+		selectedImage = stampImages[selectedIndex];
+		stamphtmlElements[selectedIndex].elt.style.border = "2px solid blue";
+	};
+
+	//handles file
+	var handleFile = function (file) {
+		if (
+			!(
+				file.subtype === "png" ||
+				file.subtype === "jpg" ||
+				file.subtype === "jpeg"
+			)
+		) {
+			alert(
+				"file is not recognised image file, please select either png, jpg or jpeg format"
+			);
+			return;
+		}
+
+		addStamp(file.data);
 	};
 }

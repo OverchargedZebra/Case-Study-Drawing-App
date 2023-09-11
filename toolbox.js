@@ -69,6 +69,10 @@ function Toolbox() {
 				if (this.selectedTool.hasOwnProperty("populateOptions")) {
 					this.selectedTool.populateOptions();
 				}
+
+				if (this.selectedTool.hasOwnProperty("refresh")) {
+					this.selectedTool.refresh();
+				}
 			}
 		}
 	};
