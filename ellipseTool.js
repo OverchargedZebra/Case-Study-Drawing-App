@@ -6,7 +6,7 @@ function ellipseTool() {
 	var startMouseY = -1;
 	var drawing = false;
 
-	this.draw = function () {
+	this.draw = function (pg = currentLayer) {
 		//mouseIsPressed is a variable that p5 provides for us which tells us in boolean if the mouse is pressed or not
 		if (mouseIsPressed) {
 			//if the previous values are -1 set them to the current mouse location and set drawing to true and load the pixels
@@ -15,12 +15,12 @@ function ellipseTool() {
 				startMouseY = mouseY;
 				drawing = true;
 				//save the current state of the pixels
-				loadPixels();
+				pg.loadPixels();
 			} else {
 				//display the last save state of pixels
-				updatePixels();
+				pg.updatePixels();
 				//draw a line from the start position to the current mouse position
-				ellipse(
+				pg.ellipse(
 					(startMouseX + mouseX) / 2,
 					(startMouseY + mouseY) / 2,
 					startMouseX - mouseX,

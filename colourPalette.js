@@ -36,8 +36,8 @@ function ColourPalette() {
 
 		//set the selected colour and fill and stroke
 		self.selectedColour = c;
-		fill(c);
-		stroke(c);
+		currentLayer.fill(c);
+		currentLayer.stroke(c);
 
 		//add a new border to the selected colour
 		this.style("border", "2px solid blue");
@@ -47,8 +47,8 @@ function ColourPalette() {
 	this.loadColours = function () {
 		//set the fill and stroke properties to be black at the start of the programme
 		//running
-		fill(this.colours[0]);
-		stroke(this.colours[0]);
+		currentLayer.fill(this.colours[0]);
+		currentLayer.stroke(this.colours[0]);
 
 		//for each colour create a new div in the html for the colourSwatches
 		for (var i = 0; i < this.colours.length; i++) {

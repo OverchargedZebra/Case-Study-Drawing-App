@@ -19,21 +19,7 @@ function mousePressOnCanvas(canvas) {
 	return false;
 }
 
-function setup() {
-	//create a canvas to fill the content div from index.html
-	canvasContainer = select("#content");
-	c = createCanvas(
-		canvasContainer.size().width,
-		canvasContainer.size().height
-	);
-	c.parent("content");
-
-	// CreateNewLayer();
-
-	//create helper functions and the colour palette
-	helpers = new HelperFunctions();
-	colourP = new ColourPalette();
-
+function preload() {
 	//create a toolbox for storing the tools
 	toolbox = new Toolbox();
 
@@ -47,13 +33,33 @@ function setup() {
 	toolbox.addTool(new stampTool());
 	toolbox.addTool(new editableShapeTool());
 	toolbox.addTool(new mirrorDrawTool());
+
+	//create helper functions
+	helpers = new HelperFunctions();
+
+	CreateNewLayer();
+	//create the colour palette
+	colourP = new ColourPalette();
+}
+
+function setup() {
+	//create a canvas to fill the content div from index.html
+	canvasContainer = select("#content");
+	c = createCanvas(
+		canvasContainer.size().width,
+		canvasContainer.size().height
+	);
+	c.parent("content");
+
 	background(255);
+
+	loadPixels();
 }
 
 function draw() {
 	//get value from size slider
 	var size = document.getElementById("brush-size").value;
-	strokeWeight(size);
+	currentLayer.strokeWeight(size);
 
 	//call the draw function from the selected tool.
 	//hasOwnProperty is a javascript function that tests
@@ -65,5 +71,10 @@ function draw() {
 		}
 	} else {
 		alert("it doesn't look like your tool has a draw method!");
+	}
+	updatePixels();
+
+	for (var i = 0; i < layers.length; i++) {
+		image(layers[i], 0, 0);
 	}
 }

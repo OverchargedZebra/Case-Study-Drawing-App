@@ -20,14 +20,14 @@ function stampTool() {
 	var selectedIndex = 0;
 	var selectedImage = stampImages[selectedIndex];
 
-	this.draw = function () {
+	this.draw = function (pg = currentLayer) {
 		var size = parseInt(document.getElementById("brush-size").value);
 		var spread = parseInt(
 			document.getElementById("stamp-spread-size").value
 		);
 
 		if (mouseIsPressed) {
-			image(
+			pg.image(
 				selectedImage,
 				random(
 					mouseX - size / 2 - spread * 5,
@@ -98,7 +98,7 @@ function stampTool() {
 	);
 
 	this.unselectTool = function () {
-		loadPixels();
+		currentLayer.loadPixels();
 
 		//return colour swatches to original style
 		for (let i = 0; i < colourSwatches.length; i++) {

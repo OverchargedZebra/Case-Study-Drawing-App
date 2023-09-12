@@ -70,6 +70,7 @@ function Toolbox() {
 					this.selectedTool.populateOptions();
 				}
 
+				//if the tool has an refresh method refresh it
 				if (this.selectedTool.hasOwnProperty("refresh")) {
 					this.selectedTool.refresh();
 				}

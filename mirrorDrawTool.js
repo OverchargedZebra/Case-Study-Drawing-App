@@ -20,8 +20,9 @@ function mirrorDrawTool() {
 	var previousOppositeMouseX = -1;
 	var previousOppositeMouseY = -1;
 
-	this.draw = function() {
+	this.draw = function (pg = currentLayer, tpg = layers[layers.length - 1]) {
 		//display the last save state of pixels
+		tpg.updatePixels();
 		updatePixels();
 
 		//do the drawing if the mouse is pressed
@@ -38,7 +39,7 @@ function mirrorDrawTool() {
 			//if there are values in the previous locations
 			//draw a line between them and the current positions
 			else {
-				line(previousMouseX, previousMouseY, mouseX, mouseY);
+				pg.line(previousMouseX, previousMouseY, mouseX, mouseY);
 				previousMouseX = mouseX;
 				previousMouseY = mouseY;
 
@@ -46,7 +47,7 @@ function mirrorDrawTool() {
 				//line of symmetry
 				var oX = this.calculateOpposite(mouseX, "x");
 				var oY = this.calculateOpposite(mouseY, "y");
-				line(previousOppositeMouseX, previousOppositeMouseY, oX, oY);
+				pg.line(previousOppositeMouseX, previousOppositeMouseY, oX, oY);
 				previousOppositeMouseX = oX;
 				previousOppositeMouseY = oY;
 			}
@@ -63,21 +64,21 @@ function mirrorDrawTool() {
 		//after the drawing is done save the pixel state. We don't want the
 		//line of symmetry to be part of our drawing
 
+		tpg.loadPixels();
 		loadPixels();
 
 		//push the drawing state so that we can set the stroke weight and colour
-		push();
-		strokeWeight(3);
-		stroke("red");
+		tpg.push();
+		tpg.strokeWeight(3);
+		tpg.stroke("red");
 		//draw the line of symmetry
 		if (this.axis == "x") {
-			line(width / 2, 0, width / 2, height);
+			tpg.line(width / 2, 0, width / 2, height);
 		} else {
-			line(0, height / 2, width, height / 2);
+			tpg.line(0, height / 2, width, height / 2);
 		}
 		//return to the original stroke
-		pop();
-
+		tpg.pop();
 	};
 
 	/*calculate an opposite coordinate the other side of the
@@ -86,7 +87,7 @@ function mirrorDrawTool() {
 	 *@param a [x,y]: the axis of the coordinate (y or y)
 	 *@return number: the opposite coordinate
 	 */
-	this.calculateOpposite = function(n, a) {
+	this.calculateOpposite = function (n, a) {
 		//if the axis isn't the one being mirrored return the same
 		//value
 		if (a != this.axis) {
@@ -107,10 +108,10 @@ function mirrorDrawTool() {
 		}
 	};
 
-
 	//when the tool is deselected update the pixels to just show the drawing and
 	//hide the line of symmetry. Also clear options
-	this.unselectTool = function() {
+	this.unselectTool = function () {
+		layers[layers.length - 1].updatePixels();
 		updatePixels();
 		//clear options
 		select(".options").html("");

@@ -14,8 +14,9 @@ function editableShapeTool() {
 	var currentShape = [];
 	var curves = [];
 
-	this.draw = function () {
-		updatePixels();
+	this.draw = function (pg = currentLayer, tpg = layers[layers.length - 1]) {
+		tpg.updatePixels();
+		pg.updatePixels();
 
 		var size = parseInt(document.getElementById("brush-size").value);
 		size *= 2;
@@ -114,10 +115,10 @@ function editableShapeTool() {
 		}
 
 		if (currentShape.length > 1) {
-			push();
-			noFill();
+			pg.push();
+			pg.noFill();
 			for (var i = 0; i < currentShape.length - 1; i++) {
-				bezier(
+				pg.bezier(
 					currentShape[i].x,
 					currentShape[i].y,
 					curves[i].x1,
@@ -128,44 +129,46 @@ function editableShapeTool() {
 					currentShape[i + 1].y
 				);
 			}
-			pop();
+			pg.pop();
 		}
 
 		if (editMode) {
-			push();
-			fill(255, 0, 0);
-			noStroke();
+			tpg.push();
+			tpg.fill(255, 0, 0);
+			tpg.noStroke();
 			for (var i = 0; i < currentShape.length; i++) {
-				ellipse(currentShape[i].x, currentShape[i].y, size);
+				tpg.ellipse(currentShape[i].x, currentShape[i].y, size);
 			}
-			noFill();
-			pop();
+			tpg.noFill();
+			tpg.pop();
 		} else if (curveMode) {
-			push();
-			fill(255, 0, 0);
-			noStroke();
+			tpg.push();
+			tpg.fill(255, 0, 0);
+			tpg.noStroke();
 			for (var i = 0; i < curves.length; i++) {
-				ellipse(curves[i].x1, curves[i].y1, size);
-				ellipse(curves[i].x2, curves[i].y2, size);
+				tpg.ellipse(curves[i].x1, curves[i].y1, size);
+				tpg.ellipse(curves[i].x2, curves[i].y2, size);
 			}
 			for (var i = 0; i < currentShape.length; i++) {
-				ellipse(currentShape[i].x, currentShape[i].y, size);
+				tpg.ellipse(currentShape[i].x, currentShape[i].y, size);
 			}
-			noFill();
-			pop();
+			tpg.noFill();
+			tpg.pop();
 		}
 	};
 
 	//when the tool is deselected update the pixels to just show the drawing
 	this.unselectTool = function () {
-		updatePixels();
+		tpg = layers[layers.length - 1];
+
+		tpg.updatePixels();
 		//clear options
 		select(".options").html("");
 
 		select("#clearButton").mouseClicked(function () {
 			background(255);
 
-			loadPixels();
+			currentLayer.loadPixels();
 		});
 
 		editMode = false;
@@ -175,7 +178,9 @@ function editableShapeTool() {
 
 		currentShape = [];
 		curves = [];
-		loadPixels();
+
+		currentLayer.loadPixels();
+		tpg.loadPixels();
 	};
 
 	var editableShape = this;
@@ -229,7 +234,8 @@ function editableShapeTool() {
 			currentShape = [];
 			curves = [];
 
-			loadPixels();
+			currentLayer.loadPixels();
+			layers[layers.length - 1].loadPixels();
 		});
 
 		undoButton = select("#undoButton");
@@ -255,7 +261,12 @@ function editableShapeTool() {
 			curveMode = false;
 			curveButton.html("Curve shape");
 
-			loadPixels();
+			currentLayer.loadPixels();
+			layers[layers.length - 1].loadPixels();
 		});
+	};
+
+	this.refresh = function () {
+		currentLayer.loadPixels();
 	};
 }

@@ -7,38 +7,39 @@ function erasingTool() {
 
 	var eraserColour = [255, 255, 255];
 
-	this.draw = function () {
+	this.draw = function (pg = currentLayer, tpg = layers[layers.length - 1]) {
 		var size = parseInt(document.getElementById("brush-size").value);
 		size *= 2;
-		updatePixels();
+		tpg.updatePixels();
 
-		push();
+		pg.push();
 		if (mouseIsPressed) {
-			fill(color(eraserColour));
-			noStroke();
+			pg.fill(color(eraserColour));
+			pg.noStroke();
 			if (shapeMode) {
-				rect(mouseX - size / 2, mouseY - size / 2, size, size);
+				pg.rect(mouseX - size / 2, mouseY - size / 2, size, size);
 			} else {
-				ellipse(mouseX, mouseY, size, size);
+				pg.ellipse(mouseX, mouseY, size, size);
 			}
 		}
-		pop();
+		pg.pop();
 
-		loadPixels();
+		tpg.loadPixels();
 
-		push();
-		noFill();
-		strokeWeight(1);
-		stroke(0);
+		tpg.push();
+		tpg.noFill();
+		tpg.strokeWeight(1);
+		tpg.stroke(0);
 		if (shapeMode) {
-			rect(mouseX - size / 2, mouseY - size / 2, size, size);
+			tpg.rect(mouseX - size / 2, mouseY - size / 2, size, size);
 		} else {
-			ellipse(mouseX, mouseY, size, size);
+			tpg.ellipse(mouseX, mouseY, size, size);
 		}
-		pop();
+		tpg.pop();
 	};
 
 	this.unselectTool = function () {
+		layers[layers.length - 1].updatePixels();
 		updatePixels();
 
 		select(".options").html("");
