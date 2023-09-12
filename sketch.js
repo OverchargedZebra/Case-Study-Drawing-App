@@ -34,10 +34,11 @@ function preload() {
 	toolbox.addTool(new editableShapeTool());
 	toolbox.addTool(new mirrorDrawTool());
 
+	CreateNewLayer();
+
 	//create helper functions
 	helpers = new HelperFunctions();
 
-	CreateNewLayer();
 	//create the colour palette
 	colourP = new ColourPalette();
 }

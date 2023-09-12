@@ -36,6 +36,9 @@ function erasingTool() {
 			tpg.ellipse(mouseX, mouseY, size, size);
 		}
 		tpg.pop();
+
+		console.log(mouseX * mouseY);
+		console.log(pg.pixels[mouseX * mouseY]);
 	};
 
 	this.unselectTool = function () {
