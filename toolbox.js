@@ -16,7 +16,7 @@ function Toolbox() {
 		self.selectTool(toolName);
 
 		//call loadPixels to make sure most recent changes are saved to pixel array
-		loadPixels();
+		currentLayer.loadPixels();
 	};
 
 	//add a new tool icon to the html page

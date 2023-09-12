@@ -38,12 +38,10 @@ function rectangleTool() {
 	};
 
 	this.unselectTool = function () {
-		loadPixels();
 		currentLayer.loadPixels();
 	};
 
 	this.refresh = function () {
-		loadPixels();
 		currentLayer.loadPixels();
 	};
 }

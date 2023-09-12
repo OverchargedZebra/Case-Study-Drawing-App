@@ -23,7 +23,6 @@ function mirrorDrawTool() {
 	this.draw = function (pg = currentLayer, tpg = layers[layers.length - 1]) {
 		//display the last save state of pixels
 		tpg.updatePixels();
-		updatePixels();
 
 		//do the drawing if the mouse is pressed
 		if (mouseIsPressed) {
@@ -65,7 +64,6 @@ function mirrorDrawTool() {
 		//line of symmetry to be part of our drawing
 
 		tpg.loadPixels();
-		loadPixels();
 
 		//push the drawing state so that we can set the stroke weight and colour
 		tpg.push();
@@ -112,28 +110,34 @@ function mirrorDrawTool() {
 	//hide the line of symmetry. Also clear options
 	this.unselectTool = function () {
 		layers[layers.length - 1].updatePixels();
-		updatePixels();
 		//clear options
 		select(".options").html("");
 	};
 
 	//adds a button and click handler to the options area. When clicked
 	//toggle the line of symmetry between horizonatl to vertical
-	this.populateOptions = function() {
+	this.populateOptions = function () {
 		select(".options").html(
-			"<button id='directionButton'>Make Horizontal</button>");
+			"<button id='directionButton'>Make Horizontal</button>"
+		);
 		// 	//click handler
-		select("#directionButton").mouseClicked(function() {
+		select("#directionButton").mouseClicked(function () {
 			var button = select("#" + this.elt.id);
 			if (self.axis == "x") {
 				self.axis = "y";
 				self.lineOfSymmetry = height / 2;
-				button.html('Make Vertical');
+				button.html("Make Vertical");
 			} else {
 				self.axis = "x";
 				self.lineOfSymmetry = width / 2;
-				button.html('Make Horizontal');
+				button.html("Make Horizontal");
 			}
 		});
+	};
+
+	this.refresh = function () {
+		self.axis = "x";
+		self.lineOfSymmetry = width / 2;
+		button.html("Make Horizontal");
 	};
 }
