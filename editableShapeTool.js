@@ -159,16 +159,18 @@ function editableShapeTool() {
 
 	//when the tool is deselected update the pixels to just show the drawing
 	this.unselectTool = function () {
-		tpg = layers[layers.length - 1];
-
-		tpg.updatePixels();
 		//clear options
 		select(".options").html("");
 
 		select("#clearButton").mouseClicked(function () {
-			background(255);
+			var c = color("rgba(0, 0, 0, 0)");
+			for (var i = 0; i < layers[currentLayerIndex].width; i++) {
+				for (var j = 0; j < layers[currentLayerIndex].height; j++) {
+					layers[currentLayerIndex].set(i, j, c);
+				}
+			}
 
-			currentLayer.loadPixels();
+			layers[currentLayerIndex].loadPixels();
 		});
 
 		editMode = false;
@@ -180,7 +182,7 @@ function editableShapeTool() {
 		curves = [];
 
 		currentLayer.loadPixels();
-		tpg.loadPixels();
+		layers[layers.length - 1].loadPixels();
 	};
 
 	var editableShape = this;
@@ -250,10 +252,15 @@ function editableShapeTool() {
 		});
 
 		select("#clearButton").mouseClicked(function () {
+			var c = color("rgba(0, 0, 0, 0)");
+			for (var i = 0; i < layers[currentLayerIndex].width; i++) {
+				for (var j = 0; j < layers[currentLayerIndex].height; j++) {
+					layers[currentLayerIndex].set(i, j, c);
+				}
+			}
+
 			currentShape = [];
 			curves = [];
-
-			background(255);
 
 			editMode = false;
 			editButton.html("Edit shape");
@@ -261,7 +268,7 @@ function editableShapeTool() {
 			curveMode = false;
 			curveButton.html("Curve shape");
 
-			currentLayer.loadPixels();
+			layers[currentLayerIndex].loadPixels();
 			layers[layers.length - 1].loadPixels();
 		});
 	};

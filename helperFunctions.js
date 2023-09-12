@@ -5,11 +5,14 @@ function HelperFunctions() {
 
 	//event handler for the clear button event. Clears the screen
 	select("#clearButton").mouseClicked(function () {
-		currentLayer.background(255);
+		var c = color("rgba(0, 0, 0, 0)");
+		for (var i = 0; i < layers[currentLayerIndex].width; i++) {
+			for (var j = 0; j < layers[currentLayerIndex].height; j++) {
+				layers[currentLayerIndex].set(i, j, c);
+			}
+		}
 
-		//call loadPixels to update the drawing state
-		//this is needed for the mirror tool
-		currentLayer.loadPixels();
+		layers[currentLayerIndex].loadPixels();
 	});
 
 	//event handler for the save image button. saves the canvsa to the
