@@ -173,6 +173,7 @@ function rectangleTool() {
 		//if the mouse isn't pressed reset the previous values to -1 and set drawing to false
 		else if (drawing == true && editMode == false) {
 			editMode = true;
+			moving = false;
 
 			calculateValues();
 

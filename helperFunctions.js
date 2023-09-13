@@ -12,6 +12,7 @@ function HelperFunctions() {
 			}
 		}
 
+		layers[currentLayerIndex].updatePixels();
 		layers[currentLayerIndex].loadPixels();
 	});
 

@@ -12,6 +12,7 @@ function erasingTool() {
 
 		if (mouseIsPressed) {
 			SetNull(pg, mouseX, mouseY, size);
+			pg.loadPixels();
 		}
 
 		tpg.loadPixels();
@@ -67,5 +68,9 @@ function erasingTool() {
 				shapeButton.html("rect eraser");
 			}
 		});
+	};
+
+	this.refresh = function () {
+		// layers[layers.length - 1].updatePixels();
 	};
 }
