@@ -14,15 +14,20 @@ function CreateNewLayer() {
 	SelectLayer(currentLayerIndex);
 }
 
+function DeleteLayer() {
+	layers.splice(currentLayerIndex, 1);
+
+	if (currentLayerIndex > 0) currentLayerIndex -= 1;
+
+	if (layers.length < 1) {
+		CreateNewLayer();
+	} else {
+		SelectLayer(currentLayerIndex);
+	}
+}
+
 function MoveLayer(position = "up") {
-	if (
-		!(
-			position === "up" ||
-			position === "down" ||
-			position === "top" ||
-			position === "bottom"
-		)
-	) {
+	if (!(position === "up" || position === "down")) {
 		return;
 	}
 
@@ -32,12 +37,6 @@ function MoveLayer(position = "up") {
 	} else if (position === "down" && currentLayerIndex < layers.length - 1) {
 		Switcher(currentLayerIndex, currentLayerIndex + 1);
 		currentLayerIndex += 1;
-	} else if (position === "top") {
-		Switcher(currentLayerIndex, 0);
-		currentLayerIndex = 0;
-	} else if (position === "bottom") {
-		Switcher(currentLayerIndex, layers.length - 1);
-		currentLayerIndex = layers.length - 1;
 	}
 
 	SelectLayer(currentLayerIndex);

@@ -150,10 +150,14 @@ function pictureTool() {
 				}
 				//dealing with moving of shape by dragging mouse
 				else if (
-					mouseX > startMouseX &&
-					mouseX < startMouseX + shapeWidth &&
-					mouseY > startMouseY &&
-					mouseY < startMouseY + shapeHeight
+					((mouseX > startMouseX &&
+						mouseX < startMouseX + shapeWidth) ||
+						(mouseX < startMouseX &&
+							mouseX > startMouseX + shapeWidth)) &&
+					((mouseY > startMouseY &&
+						mouseY < startMouseY + shapeHeight) ||
+						(mouseY < startMouseY &&
+							mouseY > startMouseY + shapeHeight))
 				) {
 					if (moving == false) {
 						originX = mouseX;
@@ -419,6 +423,8 @@ function pictureTool() {
 	};
 
 	var pictureToolClear = function () {
+		select("#finishButton").elt.style.display = "none";
+
 		editMode = false;
 		drawing = false;
 		moving = false;
