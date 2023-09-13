@@ -105,9 +105,6 @@ function stampTool() {
 			colourSwatches[i].style.display = "inline";
 		}
 
-		//reload the colours
-		colourP.loadColours();
-
 		//show the colour picker
 		document.getElementById("colour-picker").style = "display: colourP;";
 
@@ -127,15 +124,15 @@ function stampTool() {
 			colourSwatches[i].style.display = "none";
 		}
 
+		//hide colour picker
+		document.getElementById("colour-picker").style = "display: none;";
+
 		brushSize.max = 100;
 		brushSize.value = 50;
 		brushSizeLabel.innerHTML = "Brush size = " + brushSize.value;
 
 		stampSpreadSize.style.display = "inline";
 		stampSpreadSizeLabel.style.display = "inline";
-
-		//hide colour picker
-		document.getElementById("colour-picker").style = "display: none;";
 
 		//input file and use it as a stamp
 		var input = createFileInput(handleFile);

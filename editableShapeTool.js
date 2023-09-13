@@ -162,16 +162,10 @@ function editableShapeTool() {
 		//clear options
 		select(".options").html("");
 
-		select("#clearButton").mouseClicked(function () {
-			var c = color("rgba(0, 0, 0, 0)");
-			for (var i = 0; i < layers[currentLayerIndex].width; i++) {
-				for (var j = 0; j < layers[currentLayerIndex].height; j++) {
-					layers[currentLayerIndex].set(i, j, c);
-				}
-			}
-
-			layers[currentLayerIndex].loadPixels();
-		});
+		select("#clearButton").elt.removeEventListener(
+			"click",
+			editableShapesClear
+		);
 
 		editMode = false;
 		curveMode = false;
@@ -251,29 +245,26 @@ function editableShapeTool() {
 			editableShape.draw();
 		});
 
-		select("#clearButton").mouseClicked(function () {
-			var c = color("rgba(0, 0, 0, 0)");
-			for (var i = 0; i < layers[currentLayerIndex].width; i++) {
-				for (var j = 0; j < layers[currentLayerIndex].height; j++) {
-					layers[currentLayerIndex].set(i, j, c);
-				}
-			}
-
-			currentShape = [];
-			curves = [];
-
-			editMode = false;
-			editButton.html("Edit shape");
-
-			curveMode = false;
-			curveButton.html("Curve shape");
-
-			layers[currentLayerIndex].loadPixels();
-			layers[layers.length - 1].loadPixels();
-		});
+		select("#clearButton").elt.addEventListener(
+			"click",
+			editableShapesClear
+		);
 	};
 
 	this.refresh = function () {
 		currentLayer.loadPixels();
+	};
+
+	var editableShapesClear = function () {
+		currentShape = [];
+		curves = [];
+
+		editMode = false;
+		editButton.html("Edit shape");
+
+		curveMode = false;
+		curveButton.html("Curve shape");
+
+		layers[currentLayerIndex].loadPixels();
 	};
 }

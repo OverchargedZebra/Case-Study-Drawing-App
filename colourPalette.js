@@ -36,8 +36,8 @@ function ColourPalette() {
 
 		//set the selected colour and fill and stroke
 		self.selectedColour = c;
-		currentLayer.fill(c);
-		currentLayer.stroke(c);
+		layers[currentLayerIndex].fill(c);
+		layers[currentLayerIndex].stroke(c);
 
 		//add a new border to the selected colour
 		this.style("border", "2px solid blue");
@@ -47,8 +47,8 @@ function ColourPalette() {
 	this.loadColours = function () {
 		//set the fill and stroke properties to be black at the start of the programme
 		//running
-		currentLayer.fill(this.colours[0]);
-		currentLayer.stroke(this.colours[0]);
+		layers[currentLayerIndex].fill(this.colours[0]);
+		layers[currentLayerIndex].stroke(this.colours[0]);
 
 		//for each colour create a new div in the html for the colourSwatches
 		for (var i = 0; i < this.colours.length; i++) {
@@ -69,4 +69,9 @@ function ColourPalette() {
 	};
 	//call the loadColours function now it is declared
 	this.loadColours();
+
+	select("#colour-picker").elt.addEventListener("input", function () {
+		layers[currentLayerIndex].fill(this.value);
+		layers[currentLayerIndex].stroke(this.value);
+	});
 }

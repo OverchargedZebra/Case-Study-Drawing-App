@@ -1,17 +1,18 @@
-function rectangleTool() {
-	this.icon = "assets/rectangleTool.png";
-	this.name = "rectangleTool";
+function pictureTool() {
+	this.icon = "assets/pictureTool.png";
+	this.name = "pictureTool";
 
 	var deltaX = -1;
 	var deltaY = -1;
 	var startMouseX = -1;
 	var startMouseY = -1;
-	var shapeWidth = -1;
-	var shapeHeight = -1;
+	var shapeWidth = 1;
+	var shapeHeight = 1;
 
 	var originX;
 	var originY;
 
+	var selectedImage = null;
 	var drawing = false;
 	var editMode = false;
 	var moving = false;
@@ -23,6 +24,8 @@ function rectangleTool() {
 		//display the last save state of pixels
 		pg.updatePixels();
 		tpg.updatePixels();
+
+		if (selectedImage == null) return;
 
 		//mouseIsPressed is a variable that p5 provides for us which tells us in boolean if the mouse is pressed or not
 		if (mouseIsPressed) {
@@ -182,7 +185,13 @@ function rectangleTool() {
 			moving = false;
 		}
 
-		pg.rect(startMouseX, startMouseY, shapeWidth, shapeHeight);
+		pg.image(
+			selectedImage,
+			startMouseX,
+			startMouseY,
+			shapeWidth,
+			shapeHeight
+		);
 
 		tpg.push();
 		if (editMode) {
@@ -291,11 +300,22 @@ function rectangleTool() {
 		});
 	};
 
+	//used to hide colour swatches
+	var colourSwatches = document.getElementsByClassName("colourSwatches");
+
 	//used to hide or show brush slider
 	var brushSize = document.getElementById("brush-size");
 	var brushSizeLabel = document.getElementById("brush-size-label");
 
 	this.unselectTool = function () {
+		//return colour swatches to original style
+		for (let i = 0; i < colourSwatches.length; i++) {
+			colourSwatches[i].style.display = "inline";
+		}
+
+		//show the colour picker
+		document.getElementById("colour-picker").style = "display: colourP;";
+
 		//show  brush size and its label
 		brushSize.style.display = "inline";
 		brushSizeLabel.style.display = "inline";
@@ -305,7 +325,7 @@ function rectangleTool() {
 
 		select("#clearButton").elt.removeEventListener(
 			"click",
-			rectangleToolClear
+			pictureToolClear
 		);
 
 		editMode = false;
@@ -316,6 +336,7 @@ function rectangleTool() {
 		currentLayer.loadPixels();
 		layers[layers.length - 1].loadPixels();
 
+		selectedImage = null;
 		cornerCircles = [];
 		sideRectangles = [];
 
@@ -323,18 +344,26 @@ function rectangleTool() {
 		deltaY = -1;
 		startMouseX = -1;
 		startMouseY = -1;
-		shapeWidth = 0;
-		shapeHeight = 0;
+		shapeWidth = 1;
+		shapeHeight = 1;
 	};
 
 	var self = this;
 	this.populateOptions = function () {
-		//hide  brush size and its label
+		//hide the colour swatch
+		for (let i = 0; i < colourSwatches.length; i++) {
+			colourSwatches[i].style.display = "none";
+		}
+
+		//hide colour picker
+		document.getElementById("colour-picker").style = "display: none;";
+
+		//show  brush size and its label
 		brushSize.style.display = "none";
 		brushSizeLabel.style.display = "none";
 
 		select(".options").html(
-			"<button id='finishButton'>finish shape</button>"
+			"<button id='finishButton''>finish shape</button>"
 		);
 
 		select("#finishButton").mouseClicked(function () {
@@ -355,23 +384,27 @@ function rectangleTool() {
 			deltaY = -1;
 			startMouseX = -1;
 			startMouseY = -1;
-			shapeWidth = 0;
-			shapeHeight = 0;
+			shapeWidth = 1;
+			shapeHeight = 1;
 		});
 
 		select("#finishButton").elt.style.display = "none";
 
-		select("#clearButton").elt.addEventListener(
-			"click",
-			rectangleToolClear
-		);
+		//input file and use it as a stamp
+		var input = createFileInput(handleFile);
+		select(".options").child(input);
+
+		select("#clearButton").elt.addEventListener("click", pictureToolClear);
 	};
 
 	this.refresh = function () {
+		alert("choose image");
+
 		editMode = false;
 		drawing = false;
 		moving = false;
 
+		selectedImage = null;
 		cornerCircles = [];
 		sideRectangles = [];
 
@@ -379,13 +412,13 @@ function rectangleTool() {
 		deltaY = -1;
 		startMouseX = -1;
 		startMouseY = -1;
-		shapeWidth = 0;
-		shapeHeight = 0;
+		shapeWidth = 1;
+		shapeHeight = 1;
 
 		currentLayer.loadPixels();
 	};
 
-	var rectangleToolClear = function () {
+	var pictureToolClear = function () {
 		editMode = false;
 		drawing = false;
 		moving = false;
@@ -397,11 +430,29 @@ function rectangleTool() {
 		deltaY = -1;
 		startMouseX = -1;
 		startMouseY = -1;
-		shapeWidth = 0;
-		shapeHeight = 0;
+		shapeWidth = 1;
+		shapeHeight = 1;
 
 		self.draw();
 
 		layers[currentLayerIndex].loadPixels();
+	};
+
+	//handles file
+	var handleFile = function (file) {
+		if (
+			!(
+				file.subtype === "png" ||
+				file.subtype === "jpg" ||
+				file.subtype === "jpeg"
+			)
+		) {
+			alert(
+				"file is not recognised image file, please select either png, jpg or jpeg format"
+			);
+			return;
+		}
+
+		selectedImage = loadImage(file.data);
 	};
 }

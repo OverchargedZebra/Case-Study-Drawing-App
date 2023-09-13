@@ -296,23 +296,26 @@ function ellipseTool() {
 		});
 	};
 
+	//used to hide or show brush slider
+	var brushSize = document.getElementById("brush-size");
+	var brushSizeLabel = document.getElementById("brush-size-label");
+
 	this.unselectTool = function () {
+		//show  brush size and its label
+		brushSize.style.display = "inline";
+		brushSizeLabel.style.display = "inline";
+
 		//clear options
 		select(".options").html("");
 
-		select("#clearButton").mouseClicked(function () {
-			var c = color("rgba(0, 0, 0, 0)");
-			for (var i = 0; i < layers[currentLayerIndex].width; i++) {
-				for (var j = 0; j < layers[currentLayerIndex].height; j++) {
-					layers[currentLayerIndex].set(i, j, c);
-				}
-			}
-
-			layers[currentLayerIndex].loadPixels();
-		});
+		select("#clearButton").elt.removeEventListener(
+			"click",
+			ellipseToolClear
+		);
 
 		editMode = false;
 		drawing = false;
+		moving = false;
 		self.draw();
 
 		currentLayer.loadPixels();
@@ -331,13 +334,18 @@ function ellipseTool() {
 
 	var self = this;
 	this.populateOptions = function () {
+		//hide  brush size and its label
+		brushSize.style.display = "none";
+		brushSizeLabel.style.display = "none";
+
 		select(".options").html(
-			"<button id='finishButton' style:'display:none;'>finish shape</button>"
+			"<button id='finishButton'>finish shape</button>"
 		);
 
 		select("#finishButton").mouseClicked(function () {
 			editMode = false;
 			drawing = false;
+			moving = false;
 
 			this.elt.style.display = "none";
 			self.draw();
@@ -356,37 +364,15 @@ function ellipseTool() {
 			shapeHeight = 0;
 		});
 
-		select("#clearButton").mouseClicked(function () {
-			var c = color("rgba(0, 0, 0, 0)");
-			for (var i = 0; i < layers[currentLayerIndex].width; i++) {
-				for (var j = 0; j < layers[currentLayerIndex].height; j++) {
-					layers[currentLayerIndex].set(i, j, c);
-				}
-			}
+		select("#finishButton").elt.style.display = "none";
 
-			editMode = false;
-			drawing = false;
-
-			cornerCircles = [];
-			sideRectangles = [];
-
-			deltaX = -1;
-			deltaY = -1;
-			startMouseX = -1;
-			startMouseY = -1;
-			shapeWidth = 0;
-			shapeHeight = 0;
-
-			self.draw();
-
-			layers[currentLayerIndex].loadPixels();
-			layers[layers.length - 1].loadPixels();
-		});
+		select("#clearButton").elt.addEventListener("click", ellipseToolClear);
 	};
 
 	this.refresh = function () {
 		editMode = false;
 		drawing = false;
+		moving = false;
 
 		cornerCircles = [];
 		sideRectangles = [];
@@ -399,6 +385,26 @@ function ellipseTool() {
 		shapeHeight = 0;
 
 		currentLayer.loadPixels();
+	};
+
+	var ellipseToolClear = function () {
+		editMode = false;
+		drawing = false;
+		moving = false;
+
+		cornerCircles = [];
+		sideRectangles = [];
+
+		deltaX = -1;
+		deltaY = -1;
+		startMouseX = -1;
+		startMouseY = -1;
+		shapeWidth = 0;
+		shapeHeight = 0;
+
+		self.draw();
+
+		layers[currentLayerIndex].loadPixels();
 	};
 }
 

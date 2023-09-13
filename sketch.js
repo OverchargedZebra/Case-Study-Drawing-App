@@ -33,9 +33,13 @@ function preload() {
 	toolbox.addTool(new stampTool());
 	toolbox.addTool(new editableShapeTool());
 	toolbox.addTool(new mirrorDrawTool());
+	toolbox.addTool(new pictureTool());
 
 	CreateNewLayer();
 
+	//create helper functions
+	helpers = new HelperFunctions();
+	
 	//create the colour palette
 	colourP = new ColourPalette();
 }
@@ -51,8 +55,6 @@ function setup() {
 
 	background(255);
 
-	//create helper functions
-	helpers = new HelperFunctions();
 	loadPixels();
 }
 
