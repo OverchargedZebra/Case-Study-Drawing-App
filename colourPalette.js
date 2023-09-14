@@ -70,6 +70,7 @@ function ColourPalette() {
 	//call the loadColours function now it is declared
 	this.loadColours();
 
+	//adds event listener to the colour picker
 	select("#colour-picker").elt.addEventListener("input", function () {
 		self.selectedColour = this.value;
 		layers[currentLayerIndex].fill(self.selectedColour);

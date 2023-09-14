@@ -10,6 +10,7 @@ function FreehandTool(){
 	var previousMouseX = -1;
 	var previousMouseY = -1;
 
+	//modified to work with layers
 	this.draw = function (pg = currentLayer) {
 		//if the mouse is pressed
 		if (mouseIsPressed) {
@@ -34,5 +35,10 @@ function FreehandTool(){
 			previousMouseX = -1;
 			previousMouseY = -1;
 		}
+
+		//saves after unselecting tool
+		this.unselectTool = function () {
+			currentLayer.loadPixels();
+		};
 	};
 }

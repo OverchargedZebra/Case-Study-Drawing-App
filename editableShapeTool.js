@@ -14,11 +14,13 @@ function editableShapeTool() {
 	var currentShape = [];
 	var curves = [];
 
+	var size = 1;
+
 	this.draw = function (pg = currentLayer, tpg = layers[layers.length - 1]) {
 		tpg.updatePixels();
 		pg.updatePixels();
 
-		var size = parseInt(document.getElementById("brush-size").value);
+		size = parseInt(document.getElementById("brush-size").value);
 		size *= 2;
 		size = max(size, 20);
 
@@ -27,6 +29,7 @@ function editableShapeTool() {
 				drawing = true;
 				currentShape.push({ x: mouseX, y: mouseY });
 
+				//pushes the values for the anchors
 				if (currentShape.length > 1) {
 					var avgX =
 						(currentShape[currentShape.length - 1].x -
@@ -45,75 +48,15 @@ function editableShapeTool() {
 					});
 				}
 			} else if (editMode && mousePressOnCanvas(c)) {
-				for (var i = 0; i < currentShape.length; i++) {
-					if (
-						dist(
-							mouseX,
-							mouseY,
-							currentShape[i].x,
-							currentShape[i].y
-						) < size
-					) {
-						currentShape[i].x = mouseX;
-						currentShape[i].y = mouseY;
-
-						if (i != currentShape.length - 1) {
-							var avgX =
-								(currentShape[i + 1].x - currentShape[i].x) / 3;
-							var avgY =
-								(currentShape[i + 1].y - currentShape[i].y) / 3;
-
-							curves[i].x1 = currentShape[i].x + avgX;
-							curves[i].y1 = currentShape[i].y + avgY;
-							curves[i].x2 = currentShape[i].x + avgX * 2;
-							curves[i].y2 = currentShape[i].y + avgY * 2;
-						}
-						if (i != 0) {
-							var avgX =
-								(currentShape[i].x - currentShape[i - 1].x) / 3;
-							var avgY =
-								(currentShape[i].y - currentShape[i - 1].y) / 3;
-
-							curves[i - 1].x1 = currentShape[i - 1].x + avgX;
-							curves[i - 1].y1 = currentShape[i - 1].y + avgY;
-							curves[i - 1].x2 = currentShape[i - 1].x + avgX * 2;
-							curves[i - 1].y2 = currentShape[i - 1].y + avgY * 2;
-						}
-					}
-				}
+				calculateForEditMode();
 			} else if (curveMode && mousePressOnCanvas(c)) {
-				for (var i = 0; i < curves.length; i++) {
-					if (
-						dist(mouseX, mouseY, curves[i].x1, curves[i].y1) < size
-					) {
-						curves[i].x1 = mouseX;
-						curves[i].y1 = mouseY;
-					}
-					if (
-						dist(mouseX, mouseY, curves[i].x2, curves[i].y2) < size
-					) {
-						curves[i].x2 = mouseX;
-						curves[i].y2 = mouseY;
-					}
-				}
-				for (var i = 0; i < currentShape.length; i++) {
-					if (
-						dist(
-							mouseX,
-							mouseY,
-							currentShape[i].x,
-							currentShape[i].y
-						) < size
-					) {
-						currentShape[i].x = mouseX;
-						currentShape[i].y = mouseY;
-					}
-				}
+				calculateForCurveMode();
 			}
 		} else if (drawing) {
 			drawing = false;
 		}
 
+		//draws the shape without saving it
 		if (currentShape.length > 1) {
 			pg.push();
 			pg.noFill();
@@ -132,6 +75,66 @@ function editableShapeTool() {
 			pg.pop();
 		}
 
+		drawVisualizers(tpg);
+	};
+
+	//does necessary calculations while in edit mode
+	var calculateForEditMode = function () {
+		for (var i = 0; i < currentShape.length; i++) {
+			if (
+				dist(mouseX, mouseY, currentShape[i].x, currentShape[i].y) <
+				size
+			) {
+				currentShape[i].x = mouseX;
+				currentShape[i].y = mouseY;
+
+				if (i != currentShape.length - 1) {
+					var avgX = (currentShape[i + 1].x - currentShape[i].x) / 3;
+					var avgY = (currentShape[i + 1].y - currentShape[i].y) / 3;
+
+					curves[i].x1 = currentShape[i].x + avgX;
+					curves[i].y1 = currentShape[i].y + avgY;
+					curves[i].x2 = currentShape[i].x + avgX * 2;
+					curves[i].y2 = currentShape[i].y + avgY * 2;
+				}
+				if (i != 0) {
+					var avgX = (currentShape[i].x - currentShape[i - 1].x) / 3;
+					var avgY = (currentShape[i].y - currentShape[i - 1].y) / 3;
+
+					curves[i - 1].x1 = currentShape[i - 1].x + avgX;
+					curves[i - 1].y1 = currentShape[i - 1].y + avgY;
+					curves[i - 1].x2 = currentShape[i - 1].x + avgX * 2;
+					curves[i - 1].y2 = currentShape[i - 1].y + avgY * 2;
+				}
+			}
+		}
+	};
+
+	//does necessary calculations while in edit mode
+	var calculateForCurveMode = function () {
+		for (var i = 0; i < curves.length; i++) {
+			if (dist(mouseX, mouseY, curves[i].x1, curves[i].y1) < size) {
+				curves[i].x1 = mouseX;
+				curves[i].y1 = mouseY;
+			}
+			if (dist(mouseX, mouseY, curves[i].x2, curves[i].y2) < size) {
+				curves[i].x2 = mouseX;
+				curves[i].y2 = mouseY;
+			}
+		}
+		for (var i = 0; i < currentShape.length; i++) {
+			if (
+				dist(mouseX, mouseY, currentShape[i].x, currentShape[i].y) <
+				size
+			) {
+				currentShape[i].x = mouseX;
+				currentShape[i].y = mouseY;
+			}
+		}
+	};
+
+	//draws the visualizers for the points
+	var drawVisualizers = function (tpg) {
 		if (editMode) {
 			tpg.push();
 			tpg.fill(255, 0, 0);
@@ -162,6 +165,7 @@ function editableShapeTool() {
 		//clear options
 		select(".options").html("");
 
+		//removes the function added when deselecting the tool to prevent stacking of same function
 		select("#clearButton").elt.removeEventListener(
 			"click",
 			editableShapesClear
@@ -186,7 +190,7 @@ function editableShapeTool() {
 		select(".options").html(
 			"<button id='editButton'>Edit shape</button> <button id='curve-button'>Curve shape</button> <button id='finishButton'>Finish</button> <button id='undoButton'>Undo</button>"
 		);
-		// 	//click handler
+		//click handler
 		editButton = select("#editButton");
 		editButton.mouseClicked(function () {
 			editMode = !editMode;
@@ -245,6 +249,7 @@ function editableShapeTool() {
 			editableShape.draw();
 		});
 
+		//adds the functionality to clear button for this tool
 		select("#clearButton").elt.addEventListener(
 			"click",
 			editableShapesClear
@@ -255,6 +260,7 @@ function editableShapeTool() {
 		currentLayer.loadPixels();
 	};
 
+	//the clear functionalities for this function
 	var editableShapesClear = function () {
 		currentShape = [];
 		curves = [];

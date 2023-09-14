@@ -110,6 +110,7 @@ function mirrorDrawTool() {
 	//hide the line of symmetry. Also clear options
 	this.unselectTool = function () {
 		layers[layers.length - 1].updatePixels();
+		currentLayer.loadPixels();
 		//clear options
 		select(".options").html("");
 	};

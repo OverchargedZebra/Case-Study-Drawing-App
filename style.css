@@ -97,7 +97,7 @@ body {
 	justify-content: space-between;
 	user-select: none;
 }
-/* layers gui start */
+/* layers gui start inspiration taken from w3 school https://www.w3schools.com/howto/howto_css_dropdown.asp*/
 #layers-menu{
 	display: inline-block;
 	position:relative;

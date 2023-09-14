@@ -23,4 +23,8 @@ function sprayCanTool() {
 		}
 		pg.pop();
 	};
+
+	this.unselectTool = function () {
+		currentLayer.loadPixels();
+	};
 }

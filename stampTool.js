@@ -14,12 +14,16 @@ function stampTool() {
 		"assets/stampImage8.png",
 	];
 
+	//stores stamps html elements
 	var stamphtmlElements = [];
+
+	//stores images in array
 	var stampImages = [];
 
 	var selectedIndex = 0;
 	var selectedImage = stampImages[selectedIndex];
 
+	//draws the selected stamps
 	this.draw = function (pg = currentLayer) {
 		var size = parseInt(document.getElementById("brush-size").value);
 		var spread = parseInt(
@@ -43,7 +47,12 @@ function stampTool() {
 		}
 	};
 
+	//loads all the default stamps
 	var loadStamps = function () {
+		stamphtmlElements = [];
+		stampImages = [];
+		selectedIndex = 0;
+
 		var stampsHtml = createDiv();
 		stampsHtml.id("stamps");
 		select(".options").child(stampsHtml);
@@ -56,6 +65,7 @@ function stampTool() {
 		stamphtmlElements[selectedIndex].elt.style.border = "2px solid blue";
 	};
 
+	//an automatic way of adding stamps to stamp box
 	var addStamp = function (stamp, index = stampImages.length) {
 		var newStamp = createImg(stamp, stamp);
 		newStamp.id(stamp);
@@ -70,6 +80,7 @@ function stampTool() {
 		stamphtmlElements.push(newStamp);
 	};
 
+	//the functionality to click the images created
 	var stampClicked = function () {
 		//remove the old border
 		var current = stamphtmlElements[selectedIndex];
@@ -97,6 +108,7 @@ function stampTool() {
 		"stamp-spread-size-label"
 	);
 
+	//unselects tool
 	this.unselectTool = function () {
 		currentLayer.loadPixels();
 
@@ -115,9 +127,14 @@ function stampTool() {
 		stampSpreadSize.style.display = "none";
 		stampSpreadSizeLabel.style.display = "none";
 
+		//removes prev elements
+		stamphtmlElements = [];
+		stampImages = [];
+
 		select(".options").html("");
 	};
 
+	//populates options while hiding colour pallete and showing stamp spread slider
 	this.populateOptions = function () {
 		//hide the colour swatch
 		for (let i = 0; i < colourSwatches.length; i++) {
@@ -149,7 +166,7 @@ function stampTool() {
 		stamphtmlElements[selectedIndex].elt.style.border = "2px solid blue";
 	};
 
-	//handles file
+	//handles file and makes sure file is
 	var handleFile = function (file) {
 		if (
 			!(

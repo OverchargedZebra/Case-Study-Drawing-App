@@ -19,6 +19,7 @@ function mousePressOnCanvas(canvas) {
 	return false;
 }
 
+//preloads functions
 function preload() {
 	//create a toolbox for storing the tools
 	toolbox = new Toolbox();
@@ -55,7 +56,7 @@ function setup() {
 
 	background(255);
 
-	loadPixels();
+	loadPixels();//load pixels to maintain empty screen
 }
 
 function draw() {
@@ -74,8 +75,9 @@ function draw() {
 	} else {
 		alert("it doesn't look like your tool has a draw method!");
 	}
-	updatePixels();
+	updatePixels();//draws the empty screen from before
 
+	//draws layers based on order
 	for (var i = 0; i < layers.length; i++) {
 		image(layers[i], 0, 0);
 	}

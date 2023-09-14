@@ -4,6 +4,7 @@ function HelperFunctions() {
 	//be added to the button and doesn't 'belong' to the object
 
 	//event handler for the clear button event. Clears the screen
+	//modified this code so that it only clears current layer
 	select("#clearButton").mouseClicked(function () {
 		var c = color("rgba(0, 0, 0, 0)");
 		for (var i = 0; i < layers[currentLayerIndex].width; i++) {
@@ -13,7 +14,6 @@ function HelperFunctions() {
 		}
 
 		layers[currentLayerIndex].updatePixels();
-		layers[currentLayerIndex].loadPixels();
 	});
 
 	//event handler for the save image button. saves the canvsa to the
