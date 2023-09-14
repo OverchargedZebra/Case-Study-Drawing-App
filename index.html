@@ -46,28 +46,38 @@
 
 				<button id="clearButton">Clear</button>
 				<button id="saveImageButton">Save Image</button>
-
+				
 				<!--My changes to the code start-->
+				<!--Adding button to implement layers-->
+				<div id="layers-menu">
+					<button id="layers-menu-button">Layers</button>
+					<div id="layers-menu-content">
+						<div class="layers-menu-elements"><button id="new-layer-button" class="layers-menu-elements-button" onclick="CreateNewLayer()">Add new layer</button></div>
+						<div class="layers-menu-elements"><button id="delete-layer-button" class="layers-menu-elements-button" onclick="DeleteLayer()">delete current layer</button></div>
+						<!--elements apart of layers-menu-content should be of class layers-menu-elements-->
+						<!--1st button will have name of layer which will be automatically assigned, clicking on it will move you to that layer-->
+					</div>
+				</div>
+				
 				<input
-					type="range"
-					min="1"
-					max="20"
-					value="10"
-					id="brush-size"
-					oninput="this.nextElementSibling.value = 'Brush size = ' + this.value"
+				type="range"
+				min="1"
+				max="20"
+				value="10"
+				id="brush-size"
+				oninput="this.nextElementSibling.value = 'Brush size = ' + this.value"
 				/>
 				<output id="brush-size-label">Brush size = 10</output>
 				<input
-					type="range"
-					min="0"
-					max="50"
-					value="0"
-					id="stamp-spread-size"
-					oninput="this.nextElementSibling.value = 'Spread size = ' + this.value"
+				type="range"
+				min="0"
+				max="50"
+				value="0"
+				id="stamp-spread-size"
+				oninput="this.nextElementSibling.value = 'Spread size = ' + this.value"
 				/>
-				<output id="stamp-spread-size-label">Spread size = 0</output>
+				<output id="stamp-spread-size-label">Spread size = 0</output>				
 				<!--My changes to the code end-->
-				
 			</div>
 			<div
 				class="box"

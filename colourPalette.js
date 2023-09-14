@@ -71,7 +71,8 @@ function ColourPalette() {
 	this.loadColours();
 
 	select("#colour-picker").elt.addEventListener("input", function () {
-		layers[currentLayerIndex].fill(this.value);
-		layers[currentLayerIndex].stroke(this.value);
+		self.selectedColour = this.value;
+		layers[currentLayerIndex].fill(self.selectedColour);
+		layers[currentLayerIndex].stroke(self.selectedColour);
 	});
 }

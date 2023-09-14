@@ -138,6 +138,6 @@ function mirrorDrawTool() {
 	this.refresh = function () {
 		self.axis = "x";
 		self.lineOfSymmetry = width / 2;
-		button.html("Make Horizontal");
+		select("#directionButton").html("Make Horizontal");
 	};
 }

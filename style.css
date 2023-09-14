@@ -41,10 +41,6 @@ body {
 	flex-flow: wrap;
 }
 
-#colour-picker{
-	grid-area: colourP;
-}
-
 .options {
 	grid-area: options;
 	padding: 15px;
@@ -65,9 +61,9 @@ body {
 	grid-template-columns: 70px 230px minmax(500px, 1fr);
 	grid-template-rows: 35px minmax(500px, 1fr) 160px;
 	grid-template-areas:
-		"header header header"
-		"sidebar content content"
-		"colourP colourP options";
+	"header header header"
+	"sidebar content content"
+	"colourP colourP options";
 	background-color: #fff;
 	color: #444;
 }
@@ -79,6 +75,11 @@ body {
 
 .header {
 	background-color: #999;
+}
+
+/* my addition to the code start */
+#colour-picker{
+	grid-area: colourP;
 }
 
 #stamp-spread-size {
@@ -96,3 +97,40 @@ body {
 	justify-content: space-between;
 	user-select: none;
 }
+/* layers gui start */
+#layers-menu{
+	display: inline-block;
+	position:relative;
+}
+
+#layers-menu-content{
+	display: none;
+	right: 0;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.layers-menu-elements{
+	background-color: #444;
+	display: inline-flex;
+}
+
+.layers-menu-elements button{
+	color: black;
+	padding: 10px 16px;
+	text-decoration: none;
+}
+
+#new-layer-button{
+	order: -2;
+}
+#delete-layer-button{
+	order: -1;
+}
+
+#layers-menu-content .layers-menu-elements button:hover{background-color: #f1f1f1;}
+#layers-menu:hover #layers-menu-content{display: grid;}
+/* layers gui end */
+/* my addition to the code end */

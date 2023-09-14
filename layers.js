@@ -1,4 +1,6 @@
 var layers = [];
+var layersNames = [];
+var layerCounter = 0;
 var currentLayer;
 var currentLayerIndex = 0;
 
@@ -11,10 +13,35 @@ function CreateNewLayer() {
 
 	layers.push(pg);
 	currentLayerIndex = layers.length - 1;
+
+	layerCounter += 1;
+	layersNames.push("layer " + layerCounter);
+
+	CreateGuiElement();
+
 	SelectLayer(currentLayerIndex);
 }
 
+function CreateGuiElement() {
+	var div = createDiv();
+	div.id(layersNames[layersNames.length - 1]);
+	div.class("layers-menu-elements");
+	div.elt.dataset.index = currentLayerIndex;
+	select("#layers-menu-content").child(div);
+
+	var button = createButton(layersNames[layersNames.length - 1]);
+	button.class("layers-menu-elements-button");
+	div.child(button);
+	button.elt.addEventListener("click", LayerMouseClick);
+}
+
+var LayerMouseClick = function () {
+	SelectLayer(parseInt(this.parentElement.dataset.index));
+};
+
 function DeleteLayer() {
+	var divArray = document.getElementsByClassName("layers-menu-elements");
+	divArray[currentLayerIndex + 2].remove();
 	layers.splice(currentLayerIndex, 1);
 
 	if (currentLayerIndex > 0) currentLayerIndex -= 1;
@@ -24,22 +51,6 @@ function DeleteLayer() {
 	} else {
 		SelectLayer(currentLayerIndex);
 	}
-}
-
-function MoveLayer(position = "up") {
-	if (!(position === "up" || position === "down")) {
-		return;
-	}
-
-	if (position === "up" && currentLayerIndex > 0) {
-		Switcher(currentLayerIndex, currentLayerIndex - 1);
-		currentLayerIndex -= 1;
-	} else if (position === "down" && currentLayerIndex < layers.length - 1) {
-		Switcher(currentLayerIndex, currentLayerIndex + 1);
-		currentLayerIndex += 1;
-	}
-
-	SelectLayer(currentLayerIndex);
 }
 
 function SelectLayer(index) {
@@ -68,10 +79,25 @@ function SelectLayer(index) {
 
 	currentLayerIndex = index;
 	currentLayer = layers[currentLayerIndex];
+
+	var divArray = document.getElementsByClassName("layers-menu-elements");
+	for (var i = 0; i < divArray.length; i++) {
+		//index + 2 to account for create new layer and delete layer button
+		if (i != index + 2) {
+			divArray[i].style.background = "#444";
+		} else {
+			divArray[i].style.background = "orange";
+		}
+	}
+
+	if (colourP != null) {
+		currentLayer.fill(colourP.selectedColour);
+		currentLayer.stroke(colourP.selectedColour);
+	}
 }
 
-function Switcher(index1, index2) {
-	var temp = layers[index1];
-	layers[index1] = layers[index2];
-	layers[index2] = temp;
+function Switcher(arr, index1, index2) {
+	var temp = arr[index1];
+	arr[index1] = arr[index2];
+	arr[index2] = temp;
 }

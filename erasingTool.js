@@ -69,8 +69,4 @@ function erasingTool() {
 			}
 		});
 	};
-
-	this.refresh = function () {
-		// layers[layers.length - 1].updatePixels();
-	};
 }
