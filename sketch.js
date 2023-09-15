@@ -25,8 +25,8 @@ function preload() {
 	toolbox = new Toolbox();
 
 	//add the tools to the toolbox.
-	toolbox.addTool(new erasingTool());
 	toolbox.addTool(new FreehandTool());
+	toolbox.addTool(new erasingTool());
 	toolbox.addTool(new LineToTool());
 	toolbox.addTool(new sprayCanTool());
 	toolbox.addTool(new rectangleTool());
@@ -40,7 +40,7 @@ function preload() {
 
 	//create helper functions
 	helpers = new HelperFunctions();
-	
+
 	//create the colour palette
 	colourP = new ColourPalette();
 }

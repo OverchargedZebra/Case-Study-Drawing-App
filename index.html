@@ -52,13 +52,16 @@
 				<div id="layers-menu">
 					<button id="layers-menu-button">Layers</button>
 					<div id="layers-menu-content">
+						<!--links the CreateNewLayer function to the new-layer-button so that user can make new layers through gui-->
 						<div class="layers-menu-elements"><button id="new-layer-button" class="layers-menu-elements-button" onclick="CreateNewLayer()">Add new layer</button></div>
+						<!--links the DeleteLayer function to the delete-layer-button so that user can delete layers through gui-->
 						<div class="layers-menu-elements"><button id="delete-layer-button" class="layers-menu-elements-button" onclick="DeleteLayer()">delete current layer</button></div>
 						<!--elements apart of layers-menu-content should be of class layers-menu-elements-->
 						<!--1st button will have name of layer which will be automatically assigned, clicking on it will move you to that layer-->
 					</div>
 				</div>
 				
+				<!--oninput function inspired by solution found at stackOverflow-->
 				<input
 				type="range"
 				min="1"

@@ -29,8 +29,9 @@ function ColourPalette() {
 	var colourClick = function () {
 		//remove the old border
 		var current = select("#" + self.selectedColour + "Swatch");
-		current.style("border", "0");
-
+		if (current != null) {
+			current.style("border", "0");
+		}
 		//get the new colour from the id of the clicked element
 		var c = this.id().split("Swatch")[0];
 
@@ -72,7 +73,7 @@ function ColourPalette() {
 
 	//adds event listener to the colour picker
 	select("#colour-picker").elt.addEventListener("input", function () {
-		self.selectedColour = this.value;
+		colourP.selectedColour = this.value;
 		layers[currentLayerIndex].fill(self.selectedColour);
 		layers[currentLayerIndex].stroke(self.selectedColour);
 	});

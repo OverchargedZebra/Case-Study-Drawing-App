@@ -52,7 +52,6 @@ function erasingTool() {
 	};
 
 	//unselects the tool and updates the top most layers pixels
-	var self = this;
 	this.unselectTool = function () {
 		layers[layers.length - 1].updatePixels();
 
